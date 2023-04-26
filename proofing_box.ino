@@ -1,5 +1,4 @@
 
-// put in github!!!!
 /**
 Author: Alan Jackson
 Date:   26 April 2023
@@ -9,10 +8,16 @@ The controller reads the temperature every TIME_LAPSE seconds, and compares the 
 to the desired temperature. It turns an incandescent light bulb on or off if the current temperature drifts 
 more than TOLERANCE degrees from the desired temperature.
 
-The user moves a slider switch to select proofing for either bread or yogurt.
+The user moves a slide switch to select proofing for either bread or yogurt.
 
 Some temperature sensors are not that well calibrated. Use the CALIBRATE value to adjust the reported
 values from the temperature sensor to real world values.
+
+HW:
+- Nano by Lafvin - Nano V3.0, Nano Board ATmega328P 5V 16M Micro-Controller Board Compatible with Arduino IDE (Nano x 3 with USB Cable)
+- TMP36 - temperature senso
+- Relay switch - Tolako 5v Relay Module 5V Indicator Light LED 1 Channel Relay Module for Arduino ARM PIC AVR MCU
+- Slide switch - Cylewet 20Pcs 5mm High Knob Vertical Slide Switch 3 Pin 2 Position 1P2T SPDT Panel (Pack of 20) CYT1107
 */
 
 #include <time.h>
