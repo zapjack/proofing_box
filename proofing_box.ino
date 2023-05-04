@@ -24,9 +24,11 @@ HW:
 
 const float TEMP_BREAD = 84.0;
 const float TEMP_YOGURT = 110.0;
-const float CALIBRATE = -10.0;  // Set this to 0.0 if temperature sensor is accurate. Otherwise use this to callibrate the sensor.
+const float CALIBRATE_BREAD = -10.0;  // Set this to 0.0 if temperature sensor is accurate. Otherwise use this to callibrate the sensor.
+const float CALIBRATE_YOGURT = 0.0;  // Set this to 0.0 if temperature sensor is accurate. Otherwise use this to callibrate the sensor.
 
 float     desiredTemp = TEMP_BREAD;
+float     calibrateTemp = CALIBRATE_BREAD;
 int       switchState;          // Positions are BREAD or YOGURT
 const int BREAD = LOW;
 const int YOGURT = HIGH;
@@ -63,7 +65,7 @@ float getTemp() {
   voltage /= 1024.0;
   float temperatureC = (voltage - 0.5) * 100;
   float temperatureF = (temperatureC * 9.0 / 5.0) + 32.0;
-  return temperatureF + CALIBRATE;
+  return temperatureF + calibrateTemp;
 }
 
 void controlBulb(float temp) {
@@ -80,10 +82,12 @@ void setProduct() {
     switchState = digitalRead(SWITCH_PIN);
     if (switchState == BREAD) {
       desiredTemp = TEMP_BREAD;
+      calibrateTemp = CALIBRATE_BREAD;
       digitalWrite(SHOW_PRODUCT_PIN, BREAD);
       Serial.println("...bread");
     } else {
       desiredTemp = TEMP_YOGURT;
+      calibrateTemp = CALIBRATE_YOGURT;
       digitalWrite(SHOW_PRODUCT_PIN, YOGURT);
       Serial.println("...yogurt");
     } 
