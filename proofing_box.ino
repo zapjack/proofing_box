@@ -35,6 +35,7 @@ const float TOLERANCE = 2.0;    // how many degrees actual temp drifts from desi
 const int   TIME_LAPSE = 5000;  // time between temperature measurements, 1000 = 1sec
 
 const int SWITCH_PIN = 3;       // toggles between bread and yogurt, LOW == bread, HIGH == yogurt
+const int SHOW_PRODUCT_PIN = 5; // visual feedback for the slide switch: off == bread, on == yogurt
 const int HEAT_PIN = 7;         // relay switch to light bulb
 const int READ_TEMP_PIN = A5;   // reads the temperature sensor
 
@@ -43,11 +44,13 @@ int count = 0;
 void setup() {
   Serial.begin(9600);
   pinMode(HEAT_PIN, OUTPUT);          // controls the relay to the light bulb
+  pinMode(SHOW_PRODUCT_PIN, OUTPUT);  // bread or yogurt status
   pinMode(SWITCH_PIN, INPUT_PULLUP);  // switch to select bread or yogurt
 }
 
 void loop() {
   controlBulb(getTemp());
+  setProduct();
   delay(TIME_LAPSE);
 }
 
@@ -71,5 +74,18 @@ void controlBulb(float temp) {
 
   if (temp < desiredTemp - TOLERANCE)
     digitalWrite(HEAT_PIN, HIGH);
+}
+
+void setProduct() {
+    switchState = digitalRead(SWITCH_PIN);
+    if (switchState == BREAD) {
+      desiredTemp = TEMP_BREAD;
+      digitalWrite(SHOW_PRODUCT_PIN, BREAD);
+      Serial.println("...bread");
+    } else {
+      desiredTemp = TEMP_YOGURT;
+      digitalWrite(SHOW_PRODUCT_PIN, YOGURT);
+      Serial.println("...yogurt");
+    } 
 }
 
